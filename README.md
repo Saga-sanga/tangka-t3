@@ -11,6 +11,8 @@ Make sure you have the following installed in your system:
 - [Git](https://git-scm.com/)
 - [pnpm](https://pnpm.io/)
 
+Read this document to understand basic git workflow: [link](https://github.com/chingu-voyages/Handbook/blob/main/docs/resources/techresources/gitgithub.md)
+
 ## Getting started
 
 - Create a fork of the repo
