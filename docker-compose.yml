@@ -13,7 +13,7 @@ services:
 
   app:
     platform: "linux/amd64"
-    image: ghrc.io/Saga-sanga/tangka-t3:latest
+    image: ghcr.io/saga-sanga/tangka-t3:latest
     depends_on:
       - db
     build:
