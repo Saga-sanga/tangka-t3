@@ -17,7 +17,7 @@ Make sure you have the following installed in your system:
 - Clone your forked repo locally `git clone <repo_link>`
 - `cd` into the cloned directory
 - Run `cp .env.example .env` and set up env variables
-- Create an upstream to the main repo `git remote add upstream https://github.com/chingu-voyages/v46-tier3-team-28.git`
+- Create an upstream to the main repo `git remote add upstream https://github.com/Saga-sanga/tangka-t3.git`
 - To update your fork with the main repo run `git pull upstream main`. Make sure you update your repo regularly to keep up with the main repo.
 - Create a new branch `git checkout -b <branch_name>`
 - Run `docker compose up` and start developing
