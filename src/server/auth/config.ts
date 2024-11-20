@@ -42,7 +42,9 @@ export const authConfig = {
   providers: [
     GoogleProvider,
     FacebookProvider,
-    Resend,
+    Resend({
+      from: "no-reply@tangka.in",
+    }),
     /**
      * ...add more providers here.
      *
