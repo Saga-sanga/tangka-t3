@@ -8,6 +8,7 @@ import {
   timestamp,
   varchar,
   pgEnum,
+  decimal,
 } from "drizzle-orm/pg-core";
 import { type AdapterAccount } from "next-auth/adapters";
 
@@ -24,6 +25,7 @@ export const organisations = pgTable("organisation", {
 
 export const organisationRelations = relations(organisations, ({ many }) => ({
   users: many(users),
+  products: many(products),
 }));
 
 export const users = pgTable("user", {
@@ -121,3 +123,44 @@ export const verificationTokens = pgTable(
     compoundKey: primaryKey({ columns: [vt.identifier, vt.token] }),
   }),
 );
+
+export const products = pgTable("product", {
+  id: varchar("id", { length: 255 })
+    .notNull()
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  organsationId: varchar("organisation_id", { length: 255 }).notNull(),
+  name: varchar("name", { length: 255 }).notNull(),
+  description: text("description"),
+  sku: varchar("sku", { length: 255 }).unique(),
+  price: decimal("price", { precision: 10, scale: 2 }),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+export const productsRelations = relations(products, ({ one }) => ({
+  organisations: one(organisations, {
+    fields: [products.organsationId],
+    references: [organisations.id],
+  }),
+}));
+
+export const inventories = pgTable("inventory", {
+  id: varchar("id", { length: 255 })
+    .notNull()
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  organsationId: varchar("organisation_id", { length: 255 }).notNull(),
+  productId: varchar("product_id", { length: 255 }).notNull(),
+  stockQuantity: integer("stock_quantity").default(0),
+  updatedAt: timestamp("updated_at")
+    .notNull()
+    .$onUpdate(() => new Date()),
+});
+
+export const inventoriesRelations = relations(inventories, ({ one, many }) => ({
+  organisations: one(organisations, {
+    fields: [inventories.organsationId],
+    references: [organisations.id],
+  }),
+  products: many(products),
+}));
