@@ -13,6 +13,11 @@ import {
 import { type AdapterAccount } from "next-auth/adapters";
 
 export const roleEnum = pgEnum("role", ["admin", "cashier"]);
+export const paymentEnum = pgEnum("payment", [
+  "card",
+  "cash",
+  "digital wallet",
+]);
 
 export const organisations = pgTable("organisation", {
   id: varchar("id", { length: 255 })
@@ -25,7 +30,11 @@ export const organisations = pgTable("organisation", {
 
 export const organisationRelations = relations(organisations, ({ many }) => ({
   users: many(users),
+  inventories: many(inventories),
   products: many(products),
+  sales: many(sales),
+  salesItems: many(salesItems),
+  payments: many(payments),
 }));
 
 export const users = pgTable("user", {
@@ -51,6 +60,7 @@ export const usersRelations = relations(users, ({ one, many }) => ({
     fields: [users.organisationId],
     references: [organisations.id],
   }),
+  sales: many(sales),
 }));
 
 export const accounts = pgTable(
@@ -137,11 +147,12 @@ export const products = pgTable("product", {
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
-export const productsRelations = relations(products, ({ one }) => ({
+export const productsRelations = relations(products, ({ one, many }) => ({
   organisations: one(organisations, {
     fields: [products.organsationId],
     references: [organisations.id],
   }),
+  salesItems: many(salesItems),
 }));
 
 export const inventories = pgTable("inventory", {
@@ -163,4 +174,79 @@ export const inventoriesRelations = relations(inventories, ({ one, many }) => ({
     references: [organisations.id],
   }),
   products: many(products),
+}));
+
+export const sales = pgTable("sales", {
+  id: varchar("id", { length: 255 })
+    .notNull()
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  userId: varchar("user_id", { length: 255 }).notNull(),
+  organsationId: varchar("organisation_id", { length: 255 }).notNull(),
+  totalAmount: decimal("total_amount", { precision: 10, scale: 2 }),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+export const salesRelations = relations(sales, ({ one, many }) => ({
+  users: one(users, {
+    fields: [sales.userId],
+    references: [users.id],
+  }),
+  organisations: one(organisations, {
+    fields: [sales.organsationId],
+    references: [organisations.id],
+  }),
+  salesItems: many(salesItems),
+  payments: many(payments),
+}));
+
+export const salesItems = pgTable("sales_items", {
+  id: varchar("id", { length: 255 })
+    .notNull()
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  salesId: varchar("sales_id", { length: 255 }).notNull(),
+  organisationId: varchar("organisation_id", { length: 255 }).notNull(),
+  productId: varchar("product_id", { length: 255 }).notNull(),
+  quantity: integer("quantity").notNull(),
+  price: decimal("price", { precision: 10, scale: 2 }),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+export const salesItemsRelations = relations(salesItems, ({ one }) => ({
+  sales: one(sales, {
+    fields: [salesItems.salesId],
+    references: [sales.id],
+  }),
+  organisations: one(organisations, {
+    fields: [salesItems.organisationId],
+    references: [organisations.id],
+  }),
+  products: one(products, {
+    fields: [salesItems.productId],
+    references: [products.id],
+  }),
+}));
+
+export const payments = pgTable("payment", {
+  id: varchar("id", { length: 255 })
+    .notNull()
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  saleId: varchar("sale_id", { length: 255 }).notNull(),
+  organisationId: varchar("organisation_id", { length: 255 }).notNull(),
+  paymentMethod: paymentEnum("payment_method"),
+  amount: decimal("amount", { precision: 10, scale: 2 }),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+export const paymentsRelations = relations(payments, ({ one }) => ({
+  sale: one(sales, {
+    fields: [payments.saleId],
+    references: [sales.id],
+  }),
+  organisations: one(organisations, {
+    fields: [payments.organisationId],
+    references: [organisations.id],
+  }),
 }));
