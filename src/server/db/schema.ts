@@ -13,7 +13,7 @@ import {
 import { type AdapterAccount } from "next-auth/adapters";
 
 export const roleEnum = pgEnum("role", ["admin", "cashier"]);
-export const paymentEnum = pgEnum("payment", [
+export const paymentEnum = pgEnum("paymentType", [
   "card",
   "cash",
   "digital wallet",
@@ -31,7 +31,7 @@ export const organisations = pgTable("organisation", {
 export const organisationRelations = relations(organisations, ({ many }) => ({
   users: many(users),
   inventories: many(inventories),
-  products: many(products),
+  items: many(items),
   sales: many(sales),
   salesItems: many(salesItems),
   payments: many(payments),
@@ -134,46 +134,62 @@ export const verificationTokens = pgTable(
   }),
 );
 
-export const products = pgTable("product", {
-  id: varchar("id", { length: 255 })
-    .notNull()
-    .primaryKey()
-    .$defaultFn(() => crypto.randomUUID()),
-  organsationId: varchar("organisation_id", { length: 255 }).notNull(),
-  name: varchar("name", { length: 255 }).notNull(),
-  description: text("description"),
-  sku: varchar("sku", { length: 255 }).unique(),
-  price: decimal("price", { precision: 10, scale: 2 }),
-  createdAt: timestamp("created_at").notNull().defaultNow(),
-});
+export const items = pgTable(
+  "item",
+  {
+    id: varchar("id", { length: 255 })
+      .notNull()
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    organsationId: varchar("organisation_id", { length: 255 }).notNull(),
+    name: varchar("name", { length: 255 }).notNull(),
+    description: text("description"),
+    sku: varchar("sku", { length: 255 }).unique(),
+    price: decimal("price", { precision: 10, scale: 2 }),
+    createdAt: timestamp("created_at").notNull().defaultNow(),
+  },
+  (table) => {
+    return {
+      nameIdx: index("name_idx").on(table.name),
+    };
+  },
+);
 
-export const productsRelations = relations(products, ({ one, many }) => ({
+export const itemsRelations = relations(items, ({ one, many }) => ({
   organisations: one(organisations, {
-    fields: [products.organsationId],
+    fields: [items.organsationId],
     references: [organisations.id],
   }),
   salesItems: many(salesItems),
 }));
 
-export const inventories = pgTable("inventory", {
-  id: varchar("id", { length: 255 })
-    .notNull()
-    .primaryKey()
-    .$defaultFn(() => crypto.randomUUID()),
-  organsationId: varchar("organisation_id", { length: 255 }).notNull(),
-  productId: varchar("product_id", { length: 255 }).notNull(),
-  stockQuantity: integer("stock_quantity").default(0),
-  updatedAt: timestamp("updated_at")
-    .notNull()
-    .$onUpdate(() => new Date()),
-});
+export const inventories = pgTable(
+  "inventory",
+  {
+    id: varchar("id", { length: 255 })
+      .notNull()
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    organsationId: varchar("organisation_id", { length: 255 }).notNull(),
+    itemId: varchar("item_id", { length: 255 }).notNull(),
+    stockQuantity: integer("stock_quantity").default(0),
+    updatedAt: timestamp("updated_at")
+      .notNull()
+      .$onUpdate(() => new Date()),
+  },
+  (table) => {
+    return {
+      itemIdIdx: index("inventory_item_id_idx").on(table.itemId),
+    };
+  },
+);
 
 export const inventoriesRelations = relations(inventories, ({ one, many }) => ({
   organisations: one(organisations, {
     fields: [inventories.organsationId],
     references: [organisations.id],
   }),
-  products: many(products),
+  items: many(items),
 }));
 
 export const sales = pgTable("sales", {
@@ -207,7 +223,7 @@ export const salesItems = pgTable("sales_items", {
     .$defaultFn(() => crypto.randomUUID()),
   salesId: varchar("sales_id", { length: 255 }).notNull(),
   organisationId: varchar("organisation_id", { length: 255 }).notNull(),
-  productId: varchar("product_id", { length: 255 }).notNull(),
+  itemId: varchar("item_id", { length: 255 }).notNull(),
   quantity: integer("quantity").notNull(),
   price: decimal("price", { precision: 10, scale: 2 }),
   createdAt: timestamp("created_at").notNull().defaultNow(),
@@ -222,9 +238,9 @@ export const salesItemsRelations = relations(salesItems, ({ one }) => ({
     fields: [salesItems.organisationId],
     references: [organisations.id],
   }),
-  products: one(products, {
-    fields: [salesItems.productId],
-    references: [products.id],
+  items: one(items, {
+    fields: [salesItems.itemId],
+    references: [items.id],
   }),
 }));
 
