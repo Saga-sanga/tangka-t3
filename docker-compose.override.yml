@@ -10,7 +10,10 @@ services:
       args:
         NEXT_PUBLIC_CLIENTVAR: "lgUFqiPvK47E2Z27FPevBQXBR8wBXvh6NEpyQ5yxgph5Cw=="
     image: ""
-    working_dir: /app
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
     ports:
       - "3000:3000"
     environment:

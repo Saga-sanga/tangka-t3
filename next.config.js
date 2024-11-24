@@ -6,6 +6,13 @@ import "./src/env.js";
 
 /** @type {import("next").NextConfig} */
 const config = {
+  // webpack: (config, { isServer }) => {
+  //   config.watchOptions = {
+  //     poll: 1000,
+  //     aggregateTimeout: 300,
+  //   }
+  //   return config
+  // },
   output: "standalone"
 };
 
