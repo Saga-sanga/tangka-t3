@@ -8,5 +8,5 @@ export default {
   dbCredentials: {
     url: env.DATABASE_URL,
   },
-  tablesFilter: ["tangka-t3_*"],
+  // tablesFilter: ["tangka-t3_*"],
 } satisfies Config;
