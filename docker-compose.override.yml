@@ -9,6 +9,7 @@ services:
       dockerfile: Dockerfile.dev
       args:
         NEXT_PUBLIC_CLIENTVAR: "lgUFqiPvK47E2Z27FPevBQXBR8wBXvh6NEpyQ5yxgph5Cw=="
+    image: ""
     working_dir: /app
     ports:
       - "3000:3000"
