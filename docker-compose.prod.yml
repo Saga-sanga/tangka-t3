@@ -1,18 +1,19 @@
 services:
   app:
     image: ghcr.io/saga-sanga/tangka-t3:latest
-    restart: always  # Ensures the container restarts on failure
+    restart: always # Ensures the container restarts on failure
     environment:
       NODE_ENV: production
       DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
     deploy:
-      replicas: 1  # You can adjust this for scaling
+      replicas: 1 # You can adjust this for scaling
       restart_policy:
         condition: on-failure
         max_attempts: 3
         window: 120s
-    healthcheck:  # Add health checking
-      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000/api/health"]
+    healthcheck: # Add health checking
+      test:
+        ["CMD", "wget", "--spider", "-q", "http://localhost:3000/api/health"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -35,12 +36,12 @@ services:
       start_period: 10s
     volumes:
       - db-data:/var/lib/postgresql/data
-    backup:  # Consider adding backup configuration
+    backup: # Consider adding backup configuration
       volumes:
         - db-backups:/backups
 
 volumes:
   db-data:
-    driver: local  # You might want to use a different driver in production
+    driver: local # You might want to use a different driver in production
   db-backups:
     driver: local

@@ -13,7 +13,7 @@ const config = {
   //   }
   //   return config
   // },
-  output: "standalone"
+  output: "standalone",
 };
 
 export default config;
