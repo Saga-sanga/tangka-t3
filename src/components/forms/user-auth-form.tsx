@@ -37,7 +37,7 @@ export default function UserAuthForm() {
   async function onSubmit(data: Schema) {
     setIsLoading(true);
 
-    const signInResult = await signIn("email", {
+    const signInResult = await signIn("resend", {
       email: data.email.toLowerCase(),
       redirect: false,
       callbackUrl: searchParams?.get("from") || "/",

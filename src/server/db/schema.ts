@@ -52,7 +52,7 @@ export const users = pgTable(
       .notNull()
       .primaryKey()
       .$defaultFn(() => crypto.randomUUID()),
-    organisationId: varchar("organisation_id", { length: 255 }).notNull(),
+    organisationId: varchar("organisation_id", { length: 255 }),
     name: varchar("name", { length: 255 }),
     email: varchar("email", { length: 255 }).notNull(),
     emailVerified: timestamp("email_verified", {
@@ -189,7 +189,7 @@ export const inventories = pgTable(
       .notNull()
       .primaryKey()
       .$defaultFn(() => crypto.randomUUID()),
-    organsationId: varchar("organisation_id", { length: 255 }).notNull(),
+    organisationId: varchar("organisation_id", { length: 255 }),
     itemId: varchar("item_id", { length: 255 }).notNull(),
     stockQuantity: integer("stock_quantity").default(0),
     updatedAt: timestamp("updated_at")
@@ -200,7 +200,7 @@ export const inventories = pgTable(
     return {
       itemIdIdx: index("inventory_item_id_idx").on(table.itemId),
       organisationIdIdx: index("items_organisation_id_idx").on(
-        table.organsationId,
+        table.organisationId,
       ),
     };
   },
@@ -208,7 +208,7 @@ export const inventories = pgTable(
 
 export const inventoriesRelations = relations(inventories, ({ one, many }) => ({
   organisations: one(organisations, {
-    fields: [inventories.organsationId],
+    fields: [inventories.organisationId],
     references: [organisations.id],
   }),
   items: many(items),
@@ -258,7 +258,7 @@ export const salesItems = pgTable(
       .primaryKey()
       .$defaultFn(() => crypto.randomUUID()),
     salesId: varchar("sales_id", { length: 255 }).notNull(),
-    organisationId: varchar("organisation_id", { length: 255 }).notNull(),
+    organisationId: varchar("organisation_id", { length: 255 }),
     itemId: varchar("item_id", { length: 255 }).notNull(),
     quantity: integer("quantity").notNull(),
     price: decimal("price", { precision: 10, scale: 2 }),
@@ -298,7 +298,7 @@ export const payments = pgTable(
       .primaryKey()
       .$defaultFn(() => crypto.randomUUID()),
     saleId: varchar("sale_id", { length: 255 }).notNull(),
-    organisationId: varchar("organisation_id", { length: 255 }).notNull(),
+    organisationId: varchar("organisation_id", { length: 255 }),
     paymentMethod: paymentEnum("payment_method"),
     amount: decimal("amount", { precision: 10, scale: 2 }),
     createdAt: timestamp("created_at").notNull().defaultNow(),

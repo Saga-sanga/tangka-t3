@@ -1,6 +1,3 @@
-import Link from "next/link";
-
-import { LatestPost } from "~/app/_components/post";
 import { auth } from "~/server/auth";
 import { api, HydrateClient } from "~/trpc/server";
 
@@ -15,7 +12,7 @@ export default async function Home() {
   return (
     <HydrateClient>
       <main className="">
-        <h1>Hello friend</h1>
+        <h1>Hello {session?.user ? session.user.name : "user"}</h1>
         <p> A special message for you {hello.greeting} </p>
       </main>
     </HydrateClient>
