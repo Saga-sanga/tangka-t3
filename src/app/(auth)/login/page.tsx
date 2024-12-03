@@ -39,7 +39,7 @@ export default async function Page() {
       <UserAuthForm />
       <a
         className="text-center text-sm text-muted-foreground underline"
-        href="/register"
+        href="/signup"
       >
         Don&apos;t have an account? Sign Up
       </a>
