@@ -22,7 +22,8 @@ Read this document to understand basic git workflow: [link](https://github.com/c
 - Create an upstream to the main repo `git remote add upstream https://github.com/Saga-sanga/tangka-t3.git`
 - To update your fork with the main repo run `git pull upstream main`. Make sure you update your repo regularly to keep up with the main repo.
 - Create a new branch `git checkout -b <branch_name>`
-- Run `docker compose up` and start developing
+- Run `docker compose up -d` to run the db container in detached mode
+- Run `pnpm dev` and start developing
 
 ## What's next? How do I make an app with this?
 
