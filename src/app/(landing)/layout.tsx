@@ -1,4 +1,4 @@
-import { Logo } from "~/components/logo";
+import { LandingNav } from "~/components/landing-nav";
 
 export default function HomeLayout({
   children,
@@ -7,11 +7,7 @@ export default function HomeLayout({
 }) {
   return (
     <>
-      <header className="w-full bg-primary text-background">
-        <nav className="container">
-          <Logo />
-        </nav>
-      </header>
+      <LandingNav />
       {children}
     </>
   );
