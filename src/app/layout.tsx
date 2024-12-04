@@ -5,6 +5,7 @@ import { Kanit } from "next/font/google";
 import { type Metadata } from "next";
 
 import { TRPCReactProvider } from "~/trpc/react";
+import { Toaster } from "sonner";
 
 const kanit = Kanit({
   weight: ["400", "500"],
@@ -26,6 +27,7 @@ export default function RootLayout({
     <html lang="en" className={`${GeistSans.variable} ${kanit.variable}`}>
       <body>
         <TRPCReactProvider>{children}</TRPCReactProvider>
+        <Toaster />
       </body>
     </html>
   );

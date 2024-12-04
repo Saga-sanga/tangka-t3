@@ -10,22 +10,22 @@ services:
     ports:
       - "5432:5432"
 
-  app:
-    # image: ghcr.io/saga-sanga/tangka-t3:latest
-    depends_on:
-      - db
-    env_file:
-      - .env
-    build:
-      context: .
-      dockerfile: Dockerfile
-      args:
-        NEXT_PUBLIC_CLIENTVAR: "lgUFqiPvK47E2Z27FPevBQXBR8wBXvh6NEpyQ5yxgph5Cw=="
-    working_dir: /app
-    ports:
-      - "3000:3000"
-    environment:
-      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+  # app:
+  #   # image: ghcr.io/saga-sanga/tangka-t3:latest
+  #   depends_on:
+  #     - db
+  #   env_file:
+  #     - .env
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #     args:
+  #       NEXT_PUBLIC_CLIENTVAR: "lgUFqiPvK47E2Z27FPevBQXBR8wBXvh6NEpyQ5yxgph5Cw=="
+  #   working_dir: /app
+  #   ports:
+  #     - "3000:3000"
+  #   environment:
+  #     DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
 
 volumes:
   db-data:

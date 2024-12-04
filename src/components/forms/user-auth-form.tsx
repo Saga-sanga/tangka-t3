@@ -43,6 +43,8 @@ export default function UserAuthForm() {
       callbackUrl: searchParams?.get("from") || "/",
     });
 
+    console.log("Submit response:", signInResult);
+
     setIsLoading(false);
 
     if (signInResult?.error) {

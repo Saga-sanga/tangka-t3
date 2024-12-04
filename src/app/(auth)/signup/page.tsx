@@ -47,7 +47,10 @@ export default async function Page() {
         </div>
       </div>
       <div className="col-span-1 hidden flex-col bg-primary p-10 text-background lg:flex">
-        <Link href="/" className="flex items-center text-2xl font-bold">
+        <Link
+          href="/"
+          className="flex items-center font-display text-2xl font-medium"
+        >
           <HandCoins className="mr-2 h-10 w-10 stroke-background" />
           Tangka
         </Link>
