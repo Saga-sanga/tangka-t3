@@ -1,6 +1,7 @@
 import { HandCoins } from "lucide-react";
 import Link from "next/link";
 import UserAuthForm from "~/components/forms/user-auth-form";
+import { Logo } from "~/components/logo";
 import { buttonVariants } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
 
@@ -47,13 +48,7 @@ export default async function Page() {
         </div>
       </div>
       <div className="col-span-1 hidden flex-col bg-primary p-10 text-background lg:flex">
-        <Link
-          href="/"
-          className="flex items-center font-display text-2xl font-medium"
-        >
-          <HandCoins className="mr-2 h-10 w-10 stroke-background" />
-          Tangka
-        </Link>
+        <Logo />
         <div className="mt-auto">
           <blockquote className="space-y-2">
             <p className="text-lg">

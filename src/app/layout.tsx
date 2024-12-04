@@ -6,6 +6,7 @@ import { type Metadata } from "next";
 
 import { TRPCReactProvider } from "~/trpc/react";
 import { Toaster } from "sonner";
+import { TailwindIndicator } from "~/components/tailwind-indicator";
 
 const kanit = Kanit({
   weight: ["400", "500"],
@@ -28,6 +29,7 @@ export default function RootLayout({
       <body>
         <TRPCReactProvider>{children}</TRPCReactProvider>
         <Toaster />
+        <TailwindIndicator />
       </body>
     </html>
   );
