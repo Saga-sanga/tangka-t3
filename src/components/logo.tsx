@@ -10,8 +10,8 @@ const logoVariants = cva("flex items-center font-display", {
       small: "text-lg",
     },
     iconSize: {
-      default: "mr-2 h-10 w-10",
-      small: "mr-2 h-7 w-7",
+      default: "mr-2 h-8 w-8",
+      small: "mr-2 h-6 w-6",
     },
   },
   defaultVariants: {

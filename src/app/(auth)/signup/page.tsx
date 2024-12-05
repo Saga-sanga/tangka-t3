@@ -1,4 +1,3 @@
-import { HandCoins } from "lucide-react";
 import Link from "next/link";
 import UserAuthForm from "~/components/forms/user-auth-form";
 import { Logo } from "~/components/logo";
@@ -52,10 +51,9 @@ export default async function Page() {
         <div className="mt-auto">
           <blockquote className="space-y-2">
             <p className="text-lg">
-              &ldquo;I bible zawhna zawng zawngte chhanna i dawn theihna
-              hmun.&rdquo;
+              &ldquo;Your one stop shop for all your POS needs.&rdquo;
             </p>
-            <footer className="text-sm">Mizo Apologia</footer>
+            <footer className="text-sm">Tangka</footer>
           </blockquote>
         </div>
       </div>
