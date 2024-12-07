@@ -6,4 +6,6 @@ export default {
   semi: true,
   bracketSpacing: true,
   bracketSameLine: false,
+  useEditorConfigFile: true,
+  preserveEditorConfig: true,
 };
