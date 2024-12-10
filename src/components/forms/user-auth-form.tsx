@@ -40,7 +40,7 @@ export default function UserAuthForm() {
     const signInResult = await signIn("resend", {
       email: data.email.toLowerCase(),
       redirect: false,
-      callbackUrl: searchParams?.get("from") || "/",
+      redirectTo: searchParams?.get("from") || "/dashboard",
     });
 
     console.log("Submit response:", signInResult);
