@@ -1,5 +1,5 @@
 import { columns, Payment } from "./columns";
-import { DataTable } from "./data-table";
+import { InventoryDataTable } from "./inventory-data-table";
 
 async function getData(): Promise<Payment[]> {
   return [
@@ -28,7 +28,7 @@ export default async function InventoryPage() {
   const data = await getData();
   return (
     <div>
-      <DataTable columns={columns} data={data} />
+      <InventoryDataTable columns={columns} data={data} />
     </div>
   );
 }

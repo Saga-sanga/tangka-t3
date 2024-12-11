@@ -3,8 +3,7 @@
 import {
   ColumnDef,
   flexRender,
-  getCoreRowModel,
-  useReactTable,
+  type Table as TableData,
 } from "@tanstack/react-table";
 import {
   Table,
@@ -13,25 +12,19 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "~/components/ui/table";
+} from "./ui/table";
 
-interface DataTableProps<TData, TValue> {
+type DataTableProps<TData, TValue> = {
+  table: TableData<TData>;
   columns: ColumnDef<TData, TValue>[];
-  data: TData[];
-}
+};
 
 export function DataTable<TData, TValue>({
+  table,
   columns,
-  data,
 }: DataTableProps<TData, TValue>) {
-  const table = useReactTable({
-    data,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-  });
-
   return (
-    <div>
+    <div className="rounded-md border">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
