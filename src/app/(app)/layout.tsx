@@ -21,11 +21,11 @@ type DashboardProps = {
 };
 
 export default async function DashboardLayout({ children }: DashboardProps) {
-  const session = await auth();
+  // const session = await auth();
 
-  if (!session) {
-    redirect("/login");
-  }
+  // if (!session) {
+  //   redirect("/login");
+  // }
 
   return (
     <SidebarProvider>
